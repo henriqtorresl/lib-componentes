@@ -1,0 +1,30 @@
+<form [formGroup]="formulario">
+    <mat-form-field>
+        <input 
+            type="text" 
+            [placeholder]="formatOptions()" 
+            matInput 
+            required 
+            formControlName="input"
+            [matAutocomplete]="auto" 
+            (keyup.enter)="selectOptionEnter()"
+        >
+        <mat-autocomplete #auto="matAutocomplete">
+            @if (filteredOptions | async; as options) {
+                @if (options.length > 0) {
+                    @for (option of filteredOptions | async; track option) {
+                    <mat-option (click)="selectOption(option)">
+                        <mat-checkbox [value]="option" [checked]="selectedOptions.includes(option)">{{option}}</mat-checkbox>
+                    </mat-option>
+                    }
+                } @else {
+                    <mat-option>
+                        <mat-checkbox (click)="addNewOption()"
+                            [checked]="selectedOptions.includes(formulario.value.input)">Deseja
+                            adicionar: "{{formulario.value.input}}"?</mat-checkbox>
+                    </mat-option>
+                }
+            }
+        </mat-autocomplete>
+    </mat-form-field>
+</form>
